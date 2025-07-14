@@ -1,4 +1,4 @@
-mod characters;
+pub mod characters;
 
 mod home;
 pub use home::Home;

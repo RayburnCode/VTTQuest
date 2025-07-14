@@ -1,8 +1,7 @@
 // src/main.rs
 use dioxus::prelude::*;
-use tracing::info;
 use views::{AppLayout, About, Contact, Home, Projects, Protected, Callback, Login};
-
+use views::characters::{Character, CharacterById, CharacterEdit};
 mod components;
 mod views;
 mod api;
@@ -19,7 +18,7 @@ fn main() {
 
     server_only!({
         dotenv::dotenv().ok();
-        info!("loaded env variables");
+        tracing::info!("loaded env variables");
     });
     
     dioxus::launch(App);
@@ -42,9 +41,15 @@ enum Route {
         #[route("/")]
         Home {},
 
-        // #[route("/blog")]
-        // Blog {},
-        
+        #[route("/characters")]
+        Character {},
+
+        #[route("/characters/:slug")]
+        CharacterById { slug: String },
+
+        #[route("/characters/:slug/edit")]
+        CharacterEdit { slug: String },
+
         // #[route("/blog/:slug")]
         // BlogPostDetail { slug: String },
 
@@ -73,7 +78,7 @@ enum Route {
 
 #[server(PostServerData)]
 async fn post_server_data(data: String) -> Result<(), ServerFnError> {
-    info!("Server received: {}", data);
+    tracing::info!("Server received: {}", data);
     Ok(()) 
 }
 
@@ -93,7 +98,7 @@ async fn get_server_data() -> Result<String, ServerFnError> {
             .map_err(|e| ServerFnError::new(e.to_string()))?;
 
         let text = resp.text().await.map_err(|e| ServerFnError::new(e.to_string()))?;
-        info!("Server response: {:#?}", text);
+        tracing::info!("Server response: {:#?}", text);
         Ok(format!("Server data: {}", text))
     }
     #[cfg(target_arch = "wasm32")]
@@ -110,7 +115,7 @@ async fn test_supabase_connection() -> Result<String, ServerFnError> {
         use api::auth::create_server_client;
         use tracing::info;
         
-        info!("Testing Supabase connection by reading projects...");
+        tracing::info!("Testing Supabase connection by reading projects...");
         
         let client = create_server_client();
         
@@ -126,8 +131,8 @@ async fn test_supabase_connection() -> Result<String, ServerFnError> {
                 let status = response.status();
                 let text = response.text().await.map_err(|e| ServerFnError::new(e.to_string()))?;
                 
-                info!("Supabase response status: {}", status);
-                info!("Supabase response body: {}", text);
+                tracing::info!("Supabase response status: {}", status);
+                tracing::info!("Supabase response body: {}", text);
                 
                 if status.is_success() {
                     // Try to parse as JSON to count items
@@ -149,7 +154,7 @@ async fn test_supabase_connection() -> Result<String, ServerFnError> {
             }
             Err(e) => {
                 let error_msg = format!("❌ Failed to connect to Supabase: {}", e);
-                info!("{}", error_msg);
+                tracing::info!("{}", error_msg);
                 Ok(error_msg)
             }
         }

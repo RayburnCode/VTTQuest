@@ -9,3 +9,9 @@ pub use projects::{get_projects, Project};
 
 mod env;
  
+
+
+
+
+pub mod character;
+pub use character::{get_character, get_character_with_slug, CharacterDetail, GetCharacterWithSlug};
