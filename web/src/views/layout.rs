@@ -9,7 +9,7 @@ pub fn AppLayout() -> Element {
     rsx! {
         div { class: "flex flex-col min-h-screen",
             Navbar {}
-            main { class: "flex-1 bg-CustomBackground font-display text-CustomAccent",
+            main { class: "flex-1 bg-background font-display text-text",
                 div { class: "mx-auto px-6 sm:px-8 py-8", Outlet::<Route> {} }
             }
             Footer {}

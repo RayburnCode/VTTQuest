@@ -18,14 +18,14 @@ pub fn Navbar() -> Element {
     // Helper function to determine active class
     fn active_class(route: &Route, current_route: &Route, class: &str) -> String {
         if route == current_route {
-            format!("{} text-CustomHover font-medium border-b-2 border-CustomHover", class)
+            format!("{} text-secondary font-medium border-b-2 border-secondary", class)
         } else {
             class.to_string()
         }
     }
 
     rsx! {
-        nav { class: "sticky top-0 z-50 w-full text-CustomAccent bg-CustomNav backdrop-blur-md border-b border-gray-200 shadow-sm",
+        nav { class: "sticky top-0 z-50 w-full text-text bg-primary backdrop-blur-md border-b border-gray-200 shadow-sm",
             div { class: "px-4 sm:px-6 lg:px-8",
                 div { class: "flex h-16 items-center justify-between",
                     // Center navigation
@@ -35,7 +35,7 @@ pub fn Navbar() -> Element {
                             class: active_class(
                                 &Route::Home {},
                                 &current_route,
-                                "text-CustomAccent hover:text-CustomAccentDarker px-1 py-2 text-sm font-medium transition-colors",
+                                "text-text hover:text-accent px-1 py-2 text-sm font-medium transition-colors",
                             ),
                             "Home"
                         }
@@ -44,7 +44,7 @@ pub fn Navbar() -> Element {
                             class: active_class(
                                 &Route::About {},
                                 &current_route,
-                                "text-CustomAccent hover:text-CustomAccentDarker px-1 py-2 text-sm font-medium transition-colors",
+                                "text-text hover:text-accent px-1 py-2 text-sm font-medium transition-colors",
                             ),
                             "About"
                         }
@@ -53,7 +53,7 @@ pub fn Navbar() -> Element {
                             class: active_class(
                                 &Route::Character {},
                                 &current_route,
-                                "text-CustomAccent hover:text-CustomAccentDarker px-1 py-2 text-sm font-medium transition-colors",
+                                "text-text hover:text-accent px-1 py-2 text-sm font-medium transition-colors",
                             ),
                             "Characters"
                         }

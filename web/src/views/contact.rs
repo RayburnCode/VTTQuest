@@ -70,7 +70,7 @@ pub fn Contact() -> Element {
 
                 // Submit Button
                 button {
-                    class: "px-6 py-3 bg-CustomAccent text-CustomBackground rounded-lg hover:bg-CustomHover cursor-pointer transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 min-w-[140px]",
+                    class: "px-6 py-3 bg-text text-background rounded-lg hover:bg-secondary cursor-pointer transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 min-w-[140px]",
                     r#type: "button",
                     disabled: *is_submitting.read(),
                     onclick: move |_| {

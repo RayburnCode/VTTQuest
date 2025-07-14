@@ -40,20 +40,14 @@
     --color-blue-700: oklch(48.8% 0.243 264.376);
     --color-blue-800: oklch(42.4% 0.199 265.638);
     --color-blue-900: oklch(37.9% 0.146 265.522);
-    --color-indigo-100: oklch(93% 0.034 272.788);
-    --color-indigo-200: oklch(87% 0.065 274.039);
     --color-indigo-300: oklch(78.5% 0.115 274.713);
     --color-indigo-400: oklch(67.3% 0.182 276.935);
     --color-indigo-500: oklch(58.5% 0.233 277.117);
     --color-indigo-600: oklch(51.1% 0.262 276.966);
     --color-indigo-700: oklch(45.7% 0.24 277.023);
-    --color-indigo-800: oklch(39.8% 0.195 277.366);
-    --color-indigo-900: oklch(35.9% 0.144 278.697);
     --color-purple-100: oklch(94.6% 0.033 307.174);
     --color-purple-200: oklch(90.2% 0.063 306.703);
-    --color-purple-400: oklch(71.4% 0.203 305.504);
     --color-purple-500: oklch(62.7% 0.265 303.9);
-    --color-purple-600: oklch(55.8% 0.288 302.321);
     --color-purple-800: oklch(43.8% 0.218 303.724);
     --color-purple-900: oklch(38.1% 0.176 304.987);
     --color-gray-50: oklch(98.5% 0.002 247.839);
@@ -72,7 +66,6 @@
     --container-md: 28rem;
     --container-lg: 32rem;
     --container-2xl: 42rem;
-    --container-3xl: 48rem;
     --container-4xl: 56rem;
     --container-6xl: 72rem;
     --text-xs: 0.75rem;
@@ -112,13 +105,16 @@
     --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     --default-font-family: var(--font-sans);
     --default-mono-font-family: var(--font-mono);
-    --font-display: "Montserrat", "sans-serif";
-    --color-CustomBackground: oklch(0.3191 0.0141 166.83);
-    --color-CustomAccent: oklch(0.9124 0.0256 178.33);
-    --color-CustomAccentDarker: oklch(0.8056 0.0256 178.33);
-    --color-CustomNav: oklch(0.4588 0.0732 197.45);
-    --color-CustomHover: oklch(0.8766 0.086755 64.6051);
-    --color-CustomHoverDarker: oklch(0.7851 0.0682 62.86);
+    --font-display: "Pirata One", cursive;
+    --color-GuildNavy: oklch(0.35 0.12 270);
+    --color-TrailOrange: oklch(0.6 0.18 50);
+    --color-MapParchment: oklch(0.95 0.03 90);
+    --color-RoyalPurple: oklch(0.5 0.2 300);
+    --color-text: var(--color-GuildNavy);
+    --color-background: var(--color-MapParchment);
+    --color-primary: var(--color-GuildNavy);
+    --color-secondary: var(--color-TrailOrange);
+    --color-accent: var(--color-RoyalPurple);
   }
 }
 @layer base {
@@ -687,9 +683,6 @@
     border-left-style: var(--tw-border-style);
     border-left-width: 4px;
   }
-  .border-CustomHover {
-    border-color: var(--color-CustomHover);
-  }
   .border-blue-200 {
     border-color: var(--color-blue-200);
   }
@@ -726,6 +719,9 @@
   .border-red-500 {
     border-color: var(--color-red-500);
   }
+  .border-secondary {
+    border-color: var(--color-secondary);
+  }
   .border-transparent {
     border-color: transparent;
   }
@@ -735,17 +731,8 @@
   .border-t-transparent {
     border-top-color: transparent;
   }
-  .bg-CustomAccent {
-    background-color: var(--color-CustomAccent);
-  }
-  .bg-CustomBackground {
-    background-color: var(--color-CustomBackground);
-  }
-  .bg-CustomHover {
-    background-color: var(--color-CustomHover);
-  }
-  .bg-CustomNav {
-    background-color: var(--color-CustomNav);
+  .bg-background {
+    background-color: var(--color-background);
   }
   .bg-black {
     background-color: var(--color-black);
@@ -792,6 +779,9 @@
   .bg-indigo-600 {
     background-color: var(--color-indigo-600);
   }
+  .bg-primary {
+    background-color: var(--color-primary);
+  }
   .bg-purple-100 {
     background-color: var(--color-purple-100);
   }
@@ -803,6 +793,9 @@
   }
   .bg-red-700 {
     background-color: var(--color-red-700);
+  }
+  .bg-text {
+    background-color: var(--color-text);
   }
   .bg-white {
     background-color: var(--color-white);
@@ -965,14 +958,8 @@
     --tw-tracking: var(--tracking-tight);
     letter-spacing: var(--tracking-tight);
   }
-  .text-CustomAccent {
-    color: var(--color-CustomAccent);
-  }
-  .text-CustomBackground {
-    color: var(--color-CustomBackground);
-  }
-  .text-CustomHover {
-    color: var(--color-CustomHover);
+  .text-background {
+    color: var(--color-background);
   }
   .text-blue-200 {
     color: var(--color-blue-200);
@@ -1018,6 +1005,12 @@
   }
   .text-red-800 {
     color: var(--color-red-800);
+  }
+  .text-secondary {
+    color: var(--color-secondary);
+  }
+  .text-text {
+    color: var(--color-text);
   }
   .text-white {
     color: var(--color-white);
@@ -1132,20 +1125,6 @@
       }
     }
   }
-  .hover\:bg-CustomHover {
-    &:hover {
-      @media (hover: hover) {
-        background-color: var(--color-CustomHover);
-      }
-    }
-  }
-  .hover\:bg-CustomHoverDarker {
-    &:hover {
-      @media (hover: hover) {
-        background-color: var(--color-CustomHoverDarker);
-      }
-    }
-  }
   .hover\:bg-blue-700 {
     &:hover {
       @media (hover: hover) {
@@ -1209,6 +1188,13 @@
       }
     }
   }
+  .hover\:bg-secondary {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-secondary);
+      }
+    }
+  }
   .hover\:bg-yellow-500 {
     &:hover {
       @media (hover: hover) {
@@ -1216,10 +1202,10 @@
       }
     }
   }
-  .hover\:text-CustomAccentDarker {
+  .hover\:text-accent {
     &:hover {
       @media (hover: hover) {
-        color: var(--color-CustomAccentDarker);
+        color: var(--color-accent);
       }
     }
   }
@@ -1262,6 +1248,13 @@
     &:hover {
       @media (hover: hover) {
         color: var(--color-indigo-700);
+      }
+    }
+  }
+  .hover\:text-secondary {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-secondary);
       }
     }
   }

@@ -6,18 +6,18 @@ use chrono::Datelike;
 pub fn Footer(children: Element) -> Element {
 rsx! {
 
-    div { class: "sm:flex sm:items-center sm:justify-between px-4 py-6 text-CustomAccent bg-CustomNav shadow-md",
-        span { class: "text-sm text-CustomAccent sm:text-center ",
+    div { class: "sm:flex sm:items-center sm:justify-between px-4 py-6 text-text bg-primary shadow-md",
+        span { class: "text-sm text-text sm:text-center ",
             "© {chrono::Local::now().year()}"
-            a { class: "hover:underline", href: "https://dylanrayburn.com", " Dylan Rayburn" }
+            a { class: "hover:underline", href: "https://vttquest.com", " VTT Quest" }
             ". All Rights Reserved. "
         }
         div { class: "flex mt-4 space-x-6 sm:justify-center sm:mt-0",
             // Facebook
 
             a {
-                class: "text-CustomAccent hover:text-gray-900 dark:hover:text-white",
-                href: "https://www.facebook.com/dylan.rayburn.5/",
+                class: "text-text hover:text-secondary dark:hover:text-white",
+                href: "#",
                 svg {
                     class: "w-5 h-5",
                     fill: "currentColor",
@@ -32,8 +32,8 @@ rsx! {
             // Instagram
 
             a {
-                class: "text-CustomAccent hover:text-gray-900 dark:hover:text-white",
-                href: "https://www.instagram.com/drayburn/",
+                class: "text-text hover:text-secondary dark:hover:text-white",
+                href: "#",
                 svg {
                     class: "w-5 h-5",
                     fill: "currentColor",
@@ -49,8 +49,8 @@ rsx! {
             // Twitter
 
             a {
-                class: "text-CustomAccent hover:text-gray-900 dark:hover:text-white",
-                href: "https://x.com/Dylan_Rayburn",
+                class: "text-text hover:text-secondary dark:hover:text-white",
+                href: "#",
                 svg {
                     class: "w-5 h-5",
                     fill: "currentColor",
@@ -61,8 +61,8 @@ rsx! {
 
             // Github
             a {
-                class: "text-CustomAccent hover:text-gray-900 dark:hover:text-white",
-                href: "https://github.com/RayburnCode",
+                class: "text-text hover:text-secondary dark:hover:text-white",
+                href: "#",
                 svg {
                     class: "w-5 h-5",
                     fill: "currentColor",
@@ -77,8 +77,8 @@ rsx! {
 
             // Linkedin
             a {
-                class: "text-CustomAccent hover:text-gray-900 dark:hover:text-white",
-                href: "https://www.linkedin.com/in/dylan-rayburn-a6b93499/",
+                class: "text-text hover:text-secondary dark:hover:text-white",
+                href: "#",
                 svg {
                     class: "w-5 h-5",
                     fill: "currentColor",

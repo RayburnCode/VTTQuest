@@ -48,14 +48,14 @@ pub fn Home() -> Element {
                 // Primary Actions
                 div { class: "flex flex-wrap justify-center gap-4",
                     Link {
-                        to: Route::Projects {},
+                        to: Route::Character {},
                         class: "px-6 py-3 bg-gray-900 border border-gray-300 text-white rounded-md font-medium hover:bg-gray-800 transition-colors shadow-sm",
                         "View Characters"
                     }
                     Link {
                         to: Route::Contact {},
-                        class: "px-6 py-3 border border-gray-300 text-CustomAccent bg-CustomNav rounded-md font-medium hover:bg-gray-100 transition-colors",
-                        "Rulebooks"
+                        class: "px-6 py-3 border border-gray-300 text-text bg-primary rounded-md font-medium hover:bg-gray-100 transition-colors",
+                        "Contact Us"
                     }
                 }
             }
