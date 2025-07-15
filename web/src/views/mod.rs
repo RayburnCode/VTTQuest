@@ -1,8 +1,8 @@
 pub mod characters;
 pub mod campaigns;
 pub mod references;
-pub mod tools;
-
+pub mod dm_tools;
+ 
 
 mod home;
 pub use home::Home;

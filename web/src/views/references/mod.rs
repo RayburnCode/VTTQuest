@@ -12,3 +12,6 @@ pub use monsters::Monsters;
 
 mod spells;
 pub use spells::Spells;
+
+mod quick_reference;
+pub use quick_reference::QuickReference;

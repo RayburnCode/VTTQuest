@@ -15,7 +15,7 @@ pub fn Contact() -> Element {
         div { class: "max-w-6xl mx-auto dark:text-gray-200",
             h1 { class: "text-3xl sm:text-4xl font-bold mb-8", "Get in Touch" }
             p { class: "mb-8 text-lg",
-                "Have questions about mortgages and finance? Want to discuss a coding project or 3D printing idea? I'd love to hear from you! Fill out the form below or connect with me directly through my GitHub."
+                "Have questions about our Campaigns?? We'd love to hear from you! Fill out the form below"
             }
 
             // Contact
@@ -228,7 +228,6 @@ pub fn Contact() -> Element {
                         "tech@vttquest.com"
                     }
                 }
-            
             }
         }
     }

@@ -11,7 +11,7 @@ mod map_locations;
 pub use map_locations::MapLocations;
 
 mod npc;
-pub use npc::NPC;
+pub use npc::NpcView;
 
 
 
@@ -38,11 +38,8 @@ pub fn Campaigns() -> Element {
                     CampaignTabLink { to: Route::CampaignDashboard {}, name: "Dashboard" }
                     CampaignTabLink { to: Route::AdventureLog {}, name: "Adventure Log" }
                     CampaignTabLink { to: Route::Lore {}, name: "Lore" }
-                    CampaignTabLink {
-                        to: Route::MapLocations {},
-                        name: "Map & Locations",
-                    }
-                    CampaignTabLink { to: Route::NPC {}, name: "NPCs" }
+                    CampaignTabLink { to: Route::MapLocations {}, name: "Map & Locations" }
+                    CampaignTabLink { to: Route::NpcView {}, name: "NPCs" }
                 }
             }
         }

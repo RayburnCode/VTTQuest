@@ -79,9 +79,9 @@ pub fn NpcView() -> Element {
         },
     ]);
 
-    let selected_npc = use_signal(|| None);
-    let search_query = use_signal(|| String::new());
-    let filter_role = use_signal(|| String::new());
+    let mut selected_npc = use_signal(|| None);
+    let mut search_query = use_signal(|| String::new());
+    let mut filter_role = use_signal(|| String::new());
 
     rsx! {
         div { class: "max-w-7xl mx-auto py-6 px-4",
@@ -100,8 +100,8 @@ pub fn NpcView() -> Element {
                     input { 
                         class: "w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent",
                         placeholder: "Search NPCs by name...",
-                        value: {search_query.read().clone()},
-                        oninput: move |e| search_query.set(e.value.clone()),
+                        value: search_query.read().clone(),
+                        oninput: move |e| search_query.set(e.data.value()),
                     }
                 }
                 
@@ -109,7 +109,7 @@ pub fn NpcView() -> Element {
                 div {
                     select { 
                         class: "w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-amber-500 focus:border-transparent",
-                        onchange: move |e| filter_role.set(e.value.clone()),
+                        onchange: move |e| filter_role.set(e.data.value()),
                         option { value: "", "All Roles" }
                         option { value: "Quest Giver", "Quest Givers" }
                         option { value: "Shopkeeper", "Shopkeepers" }
@@ -136,23 +136,28 @@ pub fn NpcView() -> Element {
                                 npc.role.to_lowercase().contains(&filter_role.read().to_lowercase())
                             )
                         {
-                            let is_selected = selected_npc.read().as_ref().map_or(false, |n| n.id == npc.id);
-                            let button_class = if is_selected {
-                                "w-full text-left p-3 hover:bg-amber-100 rounded transition-colors bg-amber-200 border-l-4 border-amber-600"
-                            } else {
-                                "w-full text-left p-3 hover:bg-amber-100 rounded transition-colors bg-white"
-                            };
-                            li {
-                                button {
-                                    class: "{button_class}",
-                                    onclick: move |_| selected_npc.set(Some(npc.clone())),
-                                    
-                                    div { class: "font-medium text-amber-900", "{npc.name.clone()}" }
-                                    div { class: "text-sm text-gray-600", 
-                                        "{format!(r#"{0}  {1}"#, npc.role, npc.location)}"
-                                    }
-                                    div { class: "text-xs mt-1 text-gray-500", 
-                                        "{format!(r#"Relationship: {0}"#, npc.relationship)}"
+                            {
+                                let npc = npc.clone();
+                                let is_selected = selected_npc.read().as_ref() == Some(&npc);
+                                let button_class = if is_selected {
+                                    "w-full text-left p-3 hover:bg-amber-100 rounded transition-colors bg-amber-200 border-l-4 border-amber-600"
+                                } else {
+                                    "w-full text-left p-3 hover:bg-amber-100 rounded transition-colors bg-white"
+                                };
+                                rsx! {
+                                    li {
+                                        button {
+                                            class: button_class,
+                                            onclick: move |_| selected_npc.set(Some(npc.clone())),
+                                            
+                                            div { class: "font-medium text-amber-900", "{npc.name}" }
+                                            div { class: "text-sm text-gray-600", 
+                                                "{npc.role} • {npc.location}"
+                                            }
+                                            div { class: "text-xs mt-1 text-gray-500", 
+                                                "Relationship: {npc.relationship}"
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -163,115 +168,113 @@ pub fn NpcView() -> Element {
                 // NPC Details
                 div { class: "lg:col-span-3",
                     if let Some(npc) = selected_npc.read().as_ref() {
-                        rsx! {
-                            div { class: "bg-white rounded-lg shadow p-6",
-                                // Header with portrait
-                                div { class: "flex flex-col md:flex-row gap-6 mb-6",
-                                    // Portrait
-                                    if let Some(portrait) = &npc.portrait {
-                                        div { class: "w-full md:w-1/4",
-                                            img { 
-                                                class: "w-full h-auto rounded-lg border border-gray-200",
-                                                src: {portrait},
-                                                alt: {format!("Portrait of {}", npc.name)},
-                                            }
+                        div { class: "bg-white rounded-lg shadow p-6",
+                            // Header with portrait
+                            div { class: "flex flex-col md:flex-row gap-6 mb-6",
+                                // Portrait
+                                if let Some(portrait) = &npc.portrait {
+                                    div { class: "w-full md:w-1/4",
+                                        img { 
+                                            class: "w-full h-auto rounded-lg border border-gray-200",
+                                            src: "{portrait}",
+                                            alt: "Portrait of {npc.name}",
                                         }
+                                    }
+                                }
+                                
+                                // Basic Info
+                                div { class: "flex-1",
+                                    h2 { class: "text-2xl font-bold text-gray-800", "{npc.name}" }
+                                    div { class: "grid grid-cols-1 md:grid-cols-2 gap-2 mt-2",
+                                        div {
+                                            span { class: "font-semibold", "Race: " }
+                                            span { "{npc.race}" }
+                                        }
+                                        div {
+                                            span { class: "font-semibold", "Role: " }
+                                            span { "{npc.role}" }
+                                        }
+                                        div {
+                                            span { class: "font-semibold", "Location: " }
+                                            span { "{npc.location}" }
+                                        }
+                                        div {
+                                            span { class: "font-semibold", "Affiliation: " }
+                                            span { "{npc.affiliation}" }
+                                        }
+                                    }
+                                }
+                            }
+
+                            // Sections
+                            div { class: "grid grid-cols-1 md:grid-cols-2 gap-6",
+                                // Left Column
+                                div {
+                                    // Description
+                                    div { class: "mb-6",
+                                        h3 { class: "text-lg font-semibold mb-2 text-gray-800 border-b pb-1", "Description" }
+                                        p { class: "text-gray-700 whitespace-pre-line", "{npc.description}" }
                                     }
                                     
-                                    // Basic Info
-                                    div { class: "flex-1",
-                                        h2 { class: "text-2xl font-bold text-gray-800", npc.name.clone() }
-                                        div { class: "grid grid-cols-1 md:grid-cols-2 gap-2 mt-2",
-                                            div {
-                                                span { class: "font-semibold", "Race: " }
-                                                span { npc.race.clone() }
-                                            }
-                                            div {
-                                                span { class: "font-semibold", "Role: " }
-                                                span { npc.role.clone() }
-                                            }
-                                            div {
-                                                span { class: "font-semibold", "Location: " }
-                                                span { npc.location.clone() }
-                                            }
-                                            div {
-                                                span { class: "font-semibold", "Affiliation: " }
-                                                span { npc.affiliation.clone() }
-                                            }
-                                        }
+                                    // Personality
+                                    div { class: "mb-6",
+                                        h3 { class: "text-lg font-semibold mb-2 text-gray-800 border-b pb-1", "Personality" }
+                                        p { class: "text-gray-700 whitespace-pre-line", "{npc.personality}" }
                                     }
                                 }
-
-                                // Sections
-                                div { class: "grid grid-cols-1 md:grid-cols-2 gap-6",
-                                    // Left Column
-                                    div {
-                                        // Description
-                                        div { class: "mb-6",
-                                            h3 { class: "text-lg font-semibold mb-2 text-gray-800 border-b pb-1", "Description" }
-                                            p { class: "text-gray-700 whitespace-pre-line", npc.description.clone() }
-                                        }
-                                        
-                                        // Personality
-                                        div { class: "mb-6",
-                                            h3 { class: "text-lg font-semibold mb-2 text-gray-800 border-b pb-1", "Personality" }
-                                            p { class: "text-gray-700 whitespace-pre-line", npc.personality.clone() }
-                                        }
+                                
+                                // Right Column
+                                div {
+                                    // Appearance
+                                    div { class: "mb-6",
+                                        h3 { class: "text-lg font-semibold mb-2 text-gray-800 border-b pb-1", "Appearance" }
+                                        p { class: "text-gray-700 whitespace-pre-line", "{npc.appearance}" }
                                     }
                                     
-                                    // Right Column
-                                    div {
-                                        // Appearance
-                                        div { class: "mb-6",
-                                            h3 { class: "text-lg font-semibold mb-2 text-gray-800 border-b pb-1", "Appearance" }
-                                            p { class: "text-gray-700 whitespace-pre-line", npc.appearance.clone() }
-                                        }
-                                        
-                                        // Relationship
-                                        div { class: "mb-6",
-                                            h3 { class: "text-lg font-semibold mb-2 text-gray-800 border-b pb-1", "Relationship with Party" }
-                                            p { class: "text-gray-700 whitespace-pre-line", npc.relationship.clone() }
+                                    // Relationship
+                                    div { class: "mb-6",
+                                        h3 { class: "text-lg font-semibold mb-2 text-gray-800 border-b pb-1", "Relationship with Party" }
+                                        p { class: "text-gray-700 whitespace-pre-line", "{npc.relationship}" }
+                                    }
+                                }
+                            }
+
+                            // Important Notes
+                            if !npc.important_notes.is_empty() {
+                                div { class: "mt-6 p-4 bg-blue-50 rounded border border-blue-200",
+                                    h3 { class: "text-lg font-semibold mb-2 text-blue-800", "Important Notes" }
+                                    ul { class: "list-disc pl-5 space-y-1",
+                                        for note in &npc.important_notes {
+                                            li { class: "text-blue-700", "{note}" }
                                         }
                                     }
                                 }
+                            }
 
-                                // Important Notes
-                                if !npc.important_notes.is_empty() {
-                                    div { class: "mt-6 p-4 bg-blue-50 rounded border border-blue-200",
-                                        h3 { class: "text-lg font-semibold mb-2 text-blue-800", "Important Notes" }
-                                        ul { class: "list-disc pl-5 space-y-1",
-                                            for note in &npc.important_notes {
-                                                li { class: "text-blue-700", note }
-                                            }
-                                        }
-                                    }
-                                }
-
-                                // Quests
-                                if !npc.quests.is_empty() {
-                                    div { class: "mt-6",
-                                        h3 { class: "text-lg font-semibold mb-2 text-amber-800", "Quests" }
-                                        div { class: "space-y-3",
-                                            for quest in &npc.quests {
-                                                {
-                                                    let quest_class = match quest.status {
-                                                        QuestStatus::Available => "p-3 border rounded-lg border-green-200 bg-green-50",
-                                                        QuestStatus::Active => "p-3 border rounded-lg border-amber-200 bg-amber-50",
-                                                        QuestStatus::Completed => "p-3 border rounded-lg border-blue-200 bg-blue-50",
-                                                        QuestStatus::Failed => "p-3 border rounded-lg border-red-200 bg-red-50",
-                                                    };
-                                                    let status_class = match quest.status {
-                                                        QuestStatus::Available => "text-sm mt-1 text-green-600",
-                                                        QuestStatus::Active => "text-sm mt-1 text-amber-600",
-                                                        QuestStatus::Completed => "text-sm mt-1 text-blue-600",
-                                                        QuestStatus::Failed => "text-sm mt-1 text-red-600",
-                                                    };
-                                                    rsx! {
-                                                        div { class: "{quest_class}",
-                                                            div { class: "font-medium", "{quest.title.clone()}" }
-                                                            div { class: "{status_class}",
-                                                                "{format!("{:?}", quest.status)}"
-                                                            }
+                            // Quests
+                            if !npc.quests.is_empty() {
+                                div { class: "mt-6",
+                                    h3 { class: "text-lg font-semibold mb-2 text-amber-800", "Quests" }
+                                    div { class: "space-y-3",
+                                        for quest in &npc.quests {
+                                            {
+                                                let quest_class = match quest.status {
+                                                    QuestStatus::Available => "p-3 border rounded-lg border-green-200 bg-green-50",
+                                                    QuestStatus::Active => "p-3 border rounded-lg border-amber-200 bg-amber-50",
+                                                    QuestStatus::Completed => "p-3 border rounded-lg border-blue-200 bg-blue-50",
+                                                    QuestStatus::Failed => "p-3 border rounded-lg border-red-200 bg-red-50",
+                                                };
+                                                let status_class = match quest.status {
+                                                    QuestStatus::Available => "text-sm mt-1 text-green-600",
+                                                    QuestStatus::Active => "text-sm mt-1 text-amber-600",
+                                                    QuestStatus::Completed => "text-sm mt-1 text-blue-600",
+                                                    QuestStatus::Failed => "text-sm mt-1 text-red-600",
+                                                };
+                                                rsx! {
+                                                    div { class: quest_class,
+                                                        div { class: "font-medium", "{quest.title}" }
+                                                        div { class: status_class,
+                                                            "{quest.status:?}"
                                                         }
                                                     }
                                                 }
@@ -282,26 +285,24 @@ pub fn NpcView() -> Element {
                             }
                         }
                     } else {
-                        rsx! {
-                            div { class: "bg-white rounded-lg shadow p-8 text-center",
-                                div { class: "text-gray-400 mb-4",
-                                    svg {
-                                        class: "w-16 h-16 mx-auto",
-                                        fill: "none",
-                                        stroke: "currentColor",
-                                        view_box: "0 0 24 24",
-                                        xmlns: "http://www.w3.org/2000/svg",
-                                        path {
-                                            stroke_linecap: "round",
-                                            stroke_linejoin: "round",
-                                            stroke_width: "2",
-                                            d: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
-                                        }
+                        div { class: "bg-white rounded-lg shadow p-8 text-center",
+                            div { class: "text-gray-400 mb-4",
+                                svg {
+                                    class: "w-16 h-16 mx-auto",
+                                    fill: "none",
+                                    stroke: "currentColor",
+                                    view_box: "0 0 24 24",
+                                    xmlns: "http://www.w3.org/2000/svg",
+                                    path {
+                                        stroke_linecap: "round",
+                                        stroke_linejoin: "round",
+                                        stroke_width: "2",
+                                        d: "M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"
                                     }
                                 }
-                                h3 { class: "text-lg font-medium text-gray-500", "Select an NPC to view details" }
-                                p { class: "mt-1 text-sm text-gray-400", "Click on any NPC from the list to see their full information" }
                             }
+                            h3 { class: "text-lg font-medium text-gray-500", "Select an NPC to view details" }
+                            p { class: "mt-1 text-sm text-gray-400", "Click on any NPC from the list to see their full information" }
                         }
                     }
                 }

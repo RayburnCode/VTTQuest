@@ -51,19 +51,25 @@ pub fn Navbar() -> Element {
 
                         // Campaign dropdown
                         div { class: "relative group",
-                            button { 
+                            button {
                                 class: format!(
                                     "text-text hover:text-accent px-1 py-2 text-sm font-medium transition-colors flex items-center {}",
-                                    if matches!(current_route, Route::Campaigns {} | Route::CampaignDashboard {} | Route::AdventureLog {} | Route::Lore {} | Route::MapLocations {} | Route::NPC {}) {
+                                    if matches!(
+                                        current_route,
+                                        Route::Campaigns {}
+                                        | Route::CampaignDashboard {}
+                                        | Route::AdventureLog {}
+                                        | Route::Lore {}
+                                        | Route::MapLocations {}
+                                        | Route::NpcView {}
+                                    ) {
                                         "text-secondary font-medium border-b-2 border-secondary"
                                     } else {
                                         ""
-                                    }
+                                    },
                                 ),
                                 "Campaigns"
-                                span { class: "ml-1",
-                                    "▼"
-                                }
+                                span { class: "ml-1", "▼" }
                             }
                             // Dropdown menu
                             div { class: "absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-10",
@@ -94,36 +100,16 @@ pub fn Navbar() -> Element {
                                         "Map & Locations"
                                     }
                                     Link {
-                                        to: Route::NPC {},
+                                        to: Route::NpcView {},
                                         class: "block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100",
                                         "NPCs"
                                     }
                                 }
                             }
-                        }
-                                        // TODO: Add these routes back when implemented
-                    // Link {
-                    //     to: Route::Reference {},
-                    //     class: active_class(
-                    //         &Route::Reference {},
-                    //         &current_route,
-                    //         "text-CustomAccent hover:text-CustomAccentDarker px-1 py-2 text-sm font-medium transition-colors",
-                    //     ),
-                    //     "Reference"
-                    // }
-                    // Link {
-                    //     to: Route::DMTools {},
-                    //     class: active_class(
-                    //         &Route::DMTools {},
-                    //         &current_route,
-                    //         "text-CustomAccent hover:text-CustomAccentDarker px-1 py-2 text-sm font-medium transition-colors",
-                    //     ),
-                    //     "DM Tools"
-                    // }
+                        } // END Campaign dropdown
                     }
+                
 
-                    // Right side (Session controls)
-                    div { class: "flex items-center space-x-4" }
                 }
             }
         }
