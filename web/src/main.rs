@@ -2,6 +2,7 @@
 use dioxus::prelude::*;
 use views::{AppLayout, About, Contact, Home, Projects, Protected, Callback, Login};
 use views::characters::{Character, CharacterById, CharacterEdit};
+use views::campaigns::{Campaigns, CampaignDashboard, AdventureLog, Lore, MapLocations, NPC};
 mod components;
 mod views;
 mod api;
@@ -62,7 +63,26 @@ enum Route {
         #[route("/projects")]
         Projects {},
 
-       
+        // #[route("/adventure-log")]
+        // AdventureLog {},
+
+        #[route("/campaign")]
+        Campaigns {},
+
+        #[route("/campaign/dashboard")]
+        CampaignDashboard {},
+
+        #[route("/campaign/adventure-log")]
+        AdventureLog {},
+
+        #[route("/campaign/lore")]
+        Lore {},
+
+        #[route("/campaign/map-locations")]
+        MapLocations {},
+
+        #[route("/campaign/npcs")]
+        NPC {},
 
         #[route("/protected")]
         Protected {},

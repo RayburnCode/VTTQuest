@@ -5,7 +5,7 @@
 @theme {
   /* Fonts */
   --font-mainName: "Balthazar", serif;
-  --font-display: "Pirata One", cursive;
+  /* --font-display: "Pirata One", cursive; */
 
   /* Adventure Colors */
   --color-GuildNavy: oklch(0.35 0.12 270);
@@ -15,7 +15,7 @@
   --color-RoyalPurple: oklch(0.5 0.2 300);
 
   /* Theme Mapping */
-  --color-text: var(--color-GuildNavy);
+  --color-text: var(--color-TrailOrange);
   --color-background: var(--color-MapParchment);
   --color-primary: var(--color-GuildNavy);
   --color-secondary: var(--color-TrailOrange);
