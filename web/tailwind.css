@@ -3,21 +3,22 @@
 @import "tailwindcss";
 
 @theme {
-  /* Fonts */
-  --font-mainName: "Balthazar", serif;
-  /* --font-display: "Pirata One", cursive; */
+  /* Fonts - Recommended options */
+  --font-mainName: "Cinzel", serif; /* A dark, medieval-style font */
+  --font-display: "IM Fell English", serif; /* Alternative gritty font */
 
-  /* Adventure Colors */
-  --color-GuildNavy: oklch(0.35 0.12 270);
-  --color-TrailOrange: oklch(0.6 0.18 50);
-  --color-MapParchment: oklch(0.95 0.03 90);
-  --color-ForestPath: oklch(0.55 0.16 150);
-  --color-RoyalPurple: oklch(0.5 0.2 300);
+  /* Dark & Gritty Adventure Colors */
+  --color-GuildNavy: oklch(0.25 0.12 270); /* Darker navy */
+  --color-TrailOrange: oklch(0.5 0.15 50); /* Burnt orange */
+  --color-MapParchment: oklch(0.85 0.05 90); /* Aged parchment */
+  --color-ForestPath: oklch(0.4 0.16 150); /* Deep forest green */
+  --color-RoyalPurple: oklch(0.4 0.2 300); /* Darker royal purple */
+  --color-inkBlack: oklch(0.15 0.02 270); /* Added deep black */
 
   /* Theme Mapping */
-  --color-text: var(--color-TrailOrange);
-  --color-background: var(--color-MapParchment);
-  --color-primary: var(--color-GuildNavy);
-  --color-secondary: var(--color-TrailOrange);
-  --color-accent: var(--color-RoyalPurple);
+  --color-text: var(--color-TrailOrange); /* Better readability */
+  --color-background: var(--color-inkBlack);
+  --color-primary: var(--color-MapParchment);
+  --color-secondary: var(--color-MapParchment);
+  --color-accent: var(--color-TrailOrange);
 }

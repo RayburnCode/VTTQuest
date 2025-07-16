@@ -2,7 +2,8 @@
 use dioxus::prelude::*;
 use views::{AppLayout, About, Contact, Home, Projects, Protected, Callback, Login};
 use views::characters::{Character, CharacterById, CharacterEdit};
-use views::campaigns::{Campaigns, CampaignDashboard, AdventureLog, Lore, MapLocations, NpcView};
+use views::campaigns::{Campaigns, CampaignDashboard, AdventureLog, Lore, MapLocations, NpcView}; 
+use views::references::{Classes, CoreRules, FeatsAbilities, Monsters, Spells, QuickReference};
 mod components;
 mod views;
 mod api;
@@ -51,8 +52,6 @@ enum Route {
         #[route("/characters/:slug/edit")]
         CharacterEdit { slug: String },
 
-        // #[route("/blog/:slug")]
-        // BlogPostDetail { slug: String },
 
         #[route("/about")]
         About {},
@@ -63,8 +62,6 @@ enum Route {
         #[route("/projects")]
         Projects {},
 
-        // #[route("/adventure-log")]
-        // AdventureLog {},
 
         #[route("/campaign")]
         Campaigns {},
@@ -83,6 +80,20 @@ enum Route {
 
         #[route("/campaign/npcs")]
         NpcView {},
+
+        #[route("/reference/quick-reference")]
+        QuickReference {},
+
+        #[route("/reference/classes")]
+        Classes {},
+        #[route("/reference/core-rules")]
+        CoreRules {},
+        #[route("/reference/feats-abilities")]
+        FeatsAbilities {},
+        #[route("/reference/monsters")]
+        Monsters {},
+        #[route("/reference/spells")]
+        Spells {},
 
         #[route("/protected")]
         Protected {},
